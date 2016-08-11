@@ -1,4 +1,3 @@
-require_dependency "app/services/payment_service"
 class PaymentsController < ApplicationController
   def new
     @payment = Payment.new(amount: params[:amount], booking_id: params[:booking_id])
@@ -24,7 +23,7 @@ class PaymentsController < ApplicationController
   private
 
   def payment_service
-    @_payment_service ||= PaymentService.new(nil, payment_params)
+    @_payment_service ||= ::PaymentService.new(nil, payment_params)
   end
 
   def payment_params

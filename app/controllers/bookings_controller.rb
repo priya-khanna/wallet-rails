@@ -1,4 +1,3 @@
-require_dependency "app/services/booking_updater_service"
 class BookingsController < ApplicationController
 
   def new
@@ -49,7 +48,7 @@ class BookingsController < ApplicationController
   end
 
   def booking_updater
-    @_booking_updater ||= BookingUpdaterService.new(nil, update_params)
+    @_booking_updater ||= ::BookingUpdaterService.new(nil, update_params)
   end
 
   def create_params

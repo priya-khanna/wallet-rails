@@ -22,7 +22,7 @@ class AdminController < ApplicationController
   private
 
   def booking_service
-    @_booking_service ||= BookingSettleService.new(nil, params)
+    @_booking_service ||= ::BookingSettleService.new(nil, params)
   end
 
   def decorate_booking(booking)
