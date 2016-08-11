@@ -1,0 +1,89 @@
+<div class="zc_container">
+  <% if flash[:success] %>
+    <div class="alert alert-success" role="alert">
+      <%= flash[:success] %>
+    </div>
+  <% elsif flash[:errors] %>
+    <% errors = flash[:errors] %>
+    <div class="alert alert-danger">
+      <strong>Failed!</strong>
+     <ul>
+      <% errors.values.flatten.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @booking %>
+    <h4><i> Booking details </i></h4>
+    <div class="zc_panel">
+      <p>
+      <strong>Amount:</strong>
+      <%= @booking.amount.round %>
+      </p>
+
+      <p>
+      <strong>State:</strong>
+      <%= @booking.state %>
+      </p>
+
+      <strong>Booked at:</strong>
+      <%= @booking.created_at.strftime("%d %b %y %I:%M %P") %>
+      </p>
+
+      <strong>Extra charges:</strong>
+      <%= @booking.other_charges ? @booking.other_charges.map{|k,v| "#{k.humanize} => ₹ #{v.round}"}.join(', ') : 'None' %>
+      </p>
+      </br>
+  </div>
+
+  <%= form_tag({controller: "admin", action: "settle"}, method: "patch") do %>
+    <p><h4><i> Add other charges </i></h4></p>
+    <% @add_charges.each do |name, label_text| %>
+       <%= label_tag(label_text, nil, class: 'zc_label') %>
+       <%= text_field_tag(name, nil, class: 'zc_input') %>
+      </br>
+    <% end %>
+    <%= label_tag('Miscellaneous charges', nil, class: 'zc_label') %>
+    <%= text_field_tag(:misc_charges, nil, placeholder: 'Misc charges amount', class: 'zc_input') %>
+    <%= text_field_tag(:misc_desc, nil, placeholder: 'Misc charges description', maxlength: 20, class: 'zc_text_field') %>
+
+    <% unless @revert_charges.blank? %>
+      <p><h4><i> Revert extra charges </i></h4></p>
+      <% @revert_charges.each do |k,v| %>
+        <%= label_tag(nil, v, class: 'zc_check_label') %>
+        <%= check_box_tag(k) %>
+        </br>
+      <% end %>
+    <% end %>
+    </br>
+    <%= hidden_field_tag(:booking_id, @booking.id) %>
+    <%= submit_tag "Update"%>
+  <% end %>
+
+  <% else %>
+    <h4><i> List of bookings </i></h4>
+    <table class="table table-hover table-striped table-bordered" style="width:500px">
+      <thead>
+        <tr>
+          <th>Amount</th>
+          <th>State</th>
+          <th>Booked at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bookings.each do |b| %>
+          <tr>
+            <td><%= b[:amount] %></td>
+            <td><%= b[:state] %></td>
+            <td><%= b[:booked_at] %></td>
+            <td><%= link_to 'Add charges', admin_path(booking_id: b[:id]), class: 'btn btn-primary btn-xs', method: :get %></td>
+            <td><%= link_to 'Statement', booking_path(id: b[:id]), class: 'btn btn-primary btn-xs', method: :get %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+

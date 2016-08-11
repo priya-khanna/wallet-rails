@@ -1,0 +1,15 @@
+<div class="zc_container">
+  <% if flash[:success] %>
+    <div class="alert alert-success" role="alert">
+      <%= flash[:success] %>
+    </div>
+  <% end %>
+
+  <div class ="item">
+    <h3> Make Payment</h3>
+  </div>
+
+  <%= render 'payment' %>
+  <br/>
+</div>
+

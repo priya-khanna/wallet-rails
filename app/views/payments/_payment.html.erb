@@ -1,0 +1,44 @@
+<%= form_tag({controller: "payments", action: "create"}, method: "post") do %>
+  <% if @errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Payment Failure!</strong>
+      <ul>
+      <% @errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= label_tag(:amount, nil, class: 'zc_label') %>
+  <%= text_field_tag(:amount, params['amount'], required: true, class: 'zc_input') %>
+  <%= hidden_field_tag(:booking_id, params[:booking_id]) %>
+
+  </br>
+  <%= label_tag(nil, "Pay via wallet", class: 'zc_label') %>
+  <%= text_field_tag(:wallet_amount, params['wallet_amount'], class: 'zc_input') %>
+  </br>
+
+  <% [{id: 'paytm', name: 'Paytm'}, {id: 'mobiwik', name: 'Mobiwik'}].each do |item| %>
+    <%= radio_button_tag :wallet_mode, item[:id] %>
+    <%= label_tag :wallet_mode, item[:name] %>
+  <% end %>
+  </br>
+
+  <%= label_tag(nil, "Pay Online", class: 'zc_label') %>
+  <%= text_field_tag(:online_amount, params['online_amount'], class: 'zc_input') %>
+  </br>
+
+  <% [{id: 'cc_avenue', name: 'CC Avenue'}, { id: 'citrus', name: 'Citrus'}].each do |item| %>
+    <%= radio_button_tag :online_mode, item[:id] %>
+    <%= label_tag :online_mode, item[:name] %>
+  <% end %>
+  </br>
+
+  <%= label_tag(nil, "Pay via GiftCard", class: 'zc_label') %>
+  <%= text_field_tag(:giftcard_amount, params['giftcard_amount'], class: 'zc_input') %>
+
+  </br>
+
+  <%= submit_tag "Make Payment"%>
+<% end %>

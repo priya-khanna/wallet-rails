@@ -1,0 +1,26 @@
+<%= form_tag({controller: "bookings", action: "create"}, method: "post") do %>
+  <% if @booking.errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Error saving talk!</strong>
+      <ul>
+      <% @booking.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= label_tag(:booking_fee, nil, class: 'zc_label') %>
+  <%= text_field_tag(:fee, nil, required: true, class: 'zc_input') %>
+  </br>
+  <%= label_tag(nil, 'Refundable deposit', class: 'zc_label') %>
+  <%= text_field_tag(:security_deposit, 5000, readonly: true, class: 'zc_input') %>
+  </br>
+  </br>
+  <p><h4><i> Other charges </i></h4></p>
+  <%= label_tag(nil, 'Car cleaning - 500', class: 'zc_label') %>
+  <%= check_box_tag(:cleaning) %>
+  </br>
+  <%= submit_tag "Continue"%>
+
+<% end %>
