@@ -2,9 +2,10 @@
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="<%= 'active' if params[:controller] == 'home' %>"><%= link_to "Home", root_path %></li>
+        <li class="<%= 'active' if params[:controller] == 'home' && params[:action] == 'index' %>"><%= link_to "Home", root_path %></li>
         <li class="<%= 'active' if %w(bookings payments).include?(params[:controller])%>"><%= link_to "Booking", new_booking_path %></li>
         <li class="<%= 'active' if params[:controller] == 'admin' %>"><%= link_to "Admin", admin_path%></li>
+        <li class="<%= 'active' if params[:controller] == 'home' && params[:action] == 'about' %>"><%= link_to "About", about_path%></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       </ul>
